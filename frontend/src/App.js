@@ -492,7 +492,7 @@ function App() {
           <p>QR Code for Batch #{viewBatchId}</p>
           <div className="qr-code" id={`qr-batch-${viewBatchId}`}>
             <QRCodeSVG
-              value={`${window.location.origin}?batchId=${viewBatchId}`}
+              value={`${window.location.origin}${window.location.pathname}?batchId=${viewBatchId}`}
               size={200}
               level="H"
             />
