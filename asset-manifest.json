@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/FreshChain/static/css/main.13e5ebe5.css",
+    "main.css": "/FreshChain/static/css/main.8190a10c.css",
     "main.js": "/FreshChain/static/js/main.98dc74e7.js",
     "index.html": "/FreshChain/index.html",
-    "main.13e5ebe5.css.map": "/FreshChain/static/css/main.13e5ebe5.css.map",
+    "main.8190a10c.css.map": "/FreshChain/static/css/main.8190a10c.css.map",
     "main.98dc74e7.js.map": "/FreshChain/static/js/main.98dc74e7.js.map"
   },
   "entrypoints": [
-    "static/css/main.13e5ebe5.css",
+    "static/css/main.8190a10c.css",
     "static/js/main.98dc74e7.js"
   ]
 }
