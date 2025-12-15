@@ -74,7 +74,7 @@ h1 {
 
 .user-role {
   background: #667eea;
-  color: white;
+  color: white !important;
   padding: 10px 20px;
   border-radius: 8px;
   font-weight: bold;
@@ -156,24 +156,41 @@ h1 {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
-  font-weight: 600;
+  color: #000 !important;
+  font-weight: 700;
+  font-size: 0.95em;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 12px;
-  border: 2px solid #ddd;
+  border: 2px solid #ccc;
   border-radius: 8px;
   font-size: 1em;
   transition: border-color 0.3s;
+  background: #fff !important;
+  color: #000 !important;
+  font-family: inherit;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
   outline: none;
   border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.form-group select::placeholder {
+  color: #666 !important;
+  opacity: 1 !important;
+  font-style: italic;
 }
 
 .submit-button {

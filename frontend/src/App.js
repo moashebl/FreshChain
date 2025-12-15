@@ -3,8 +3,12 @@ import { ethers } from 'ethers';
 import { QRCodeSVG } from 'qrcode.react';
 import './App.css';
 import { CONTRACT_ADDRESS, CONTRACT_ABI, NETWORK_CONFIG } from './config';
+import LoginScreen from './LoginScreen';
 
 function App() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [account, setAccount] = useState('');
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
@@ -26,12 +30,20 @@ function App() {
   const [batchHistory, setBatchHistory] = useState(null);
   const [actorAddress, setActorAddress] = useState('');
 
+  // Check if user is already authenticated on component mount
+  useEffect(() => {
+    const authStatus = localStorage.getItem('freshchain_auth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   useEffect(() => {
     // Handle QR Code scans - automatically show batch for customers
     const urlParams = new URLSearchParams(window.location.search);
     const batchIdFromQR = urlParams.get('batchId');
     
-    if (batchIdFromQR) {
+    if (batchIdFromQR && isAuthenticated) {
       setViewBatchId(batchIdFromQR);
       setSelectedRole('Customer');
       // Auto-scroll to customer section after a brief delay
@@ -46,7 +58,7 @@ function App() {
     if (account && contract) {
       fetchUserRole();
     }
-  }, [account, contract]);
+  }, [account, contract, isAuthenticated]);
 
   const connectWallet = async () => {
     try {
@@ -589,6 +601,26 @@ function App() {
     </div>
   );
 
+  // Handle successful login
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('freshchain_auth');
+    setIsAuthenticated(false);
+    setAccount('');
+    setContract(null);
+    setUserRole('');
+    setSelectedRole('');
+  };
+
+  // If not authenticated, show login screen
+  if (!isAuthenticated) {
+    return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
+  }
+
   return (
     <div className="App">
       <div className="container">
@@ -607,9 +639,30 @@ function App() {
               <div className="wallet-address">
                 Connected: {account.substring(0, 6)}...{account.substring(38)}
               </div>
-              <div className="user-role">
-                Role: {userRole || 'Loading...'}
-              </div>
+              <button 
+                className="logout-button" 
+                onClick={handleLogout}
+                style={{
+                  marginLeft: '10px',
+                  padding: '8px 16px',
+                  background: '#e74c3c',
+                  border: 'none',
+                  borderRadius: '8px',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseOver={(e) => e.target.style.background = '#c0392b'}
+                onMouseOut={(e) => e.target.style.background = '#e74c3c'}
+              >
+                🚪 Logout
+              </button>
+              {userRole && (
+                <div className="user-role" style={{ marginTop: '8px', fontSize: '14px', color: '#666' }}>
+                  Role: {userRole}
+                </div>
+              )}
             </div>
           )}
         </div>
